@@ -1,7 +1,8 @@
 @(message: String)
 
 @main("Twitter", scripts) {
-    <div id="content"></div>
+    <div id="content" getUrl="@routes.APIController.getTweetList()"
+                      postUrl="@routes.APIController.tweet()"></div>
 }
 
 @scripts = {
