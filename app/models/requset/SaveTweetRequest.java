@@ -1,0 +1,46 @@
+package models.requset;
+
+import models.form.TweetForm;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+/**
+ * @author Tatsuya Oba
+ */
+public class SaveTweetRequest {
+    public final Long userId;
+
+    public final String content;
+
+    public SaveTweetRequest(
+            @Nonnull final Long userId,
+            @Nonnull final String content
+    ) {
+        this.userId = userId;
+        this.content = content;
+    }
+
+    @Nullable
+    public static SaveTweetRequest makeRequest(
+            @Nullable final Long userId,
+            @Nullable final String content
+    ) {
+        if(userId == null || content == null) {
+            return null;
+        }
+
+        return new SaveTweetRequest(
+                userId,
+                content
+        );
+    }
+
+    @Nullable
+    public static SaveTweetRequest makeRequest(@Nonnull final TweetForm tweetForm) {
+        return makeRequest(
+                tweetForm.userId,
+                tweetForm.content
+        );
+    }
+}

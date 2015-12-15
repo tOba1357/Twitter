@@ -32,6 +32,9 @@ public class User extends Model {
     @Column(nullable = false)
     public String hashedPassword;
 
+    @Column(nullable = false)
+    public String userName;
+
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     public List<Tweet> tweetList;
 
