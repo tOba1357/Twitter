@@ -1,7 +1,9 @@
 @(message: String)
 
-@main("HelloWorld") {
-    <div id="test"></div>
-}{
-    <script src="@routes.Assets.versioned("javascripts/test-react.js")"></script>
+@main("Twitter", scripts) {
+    <div id="content"></div>
+}
+
+@scripts = {
+    <script src="@routes.Assets.versioned("javascripts/index.js")"></script>
 }
