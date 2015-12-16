@@ -1,11 +1,11 @@
 @()
 
-@main("新規登録", scripts) {
-    <div id="content" postUrl="@routes.APIController.singup()"
+@main("ログイン", scripts) {
+    <div id="content" postUrl="@routes.APIController.signin()"
                       redirectUrl="@routes.Application.index()"></div>
 }
 
 @scripts = {
     <script src="@routes.Assets.versioned("javascripts/form-component.js")"></script>
-    <script src="@routes.Assets.versioned("javascripts/signup.js")"></script>
+    <script src="@routes.Assets.versioned("javascripts/signin.js")"></script>
 }

@@ -22,9 +22,12 @@ public class SaveTweetRequest {
     }
 
     @Nullable
-    public static SaveTweetRequest makeRequest(@Nonnull final TweetForm tweetForm) {
+    public static SaveTweetRequest makeRequest(
+            @Nonnull final Long userId,
+            @Nonnull final TweetForm tweetForm
+    ) {
         return new SaveTweetRequest(
-                tweetForm.getUserId(),
+                userId,
                 tweetForm.getContent()
         );
     }

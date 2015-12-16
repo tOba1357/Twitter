@@ -24,6 +24,18 @@ public class UserService {
                 .findUnique();
     }
 
+    public Boolean registered(@Nonnull final String email) {
+        return getUserByEmail(email) != null;
+    }
+
+    public Boolean authenticate(
+            @Nonnull final String email,
+            @Nonnull final String password
+    ) {
+        final User user = getUserByEmail(email);
+        return user != null && BCrypt.checkpw(password, user.hashedPassword);
+    }
+
     public boolean saveUser(@Nonnull final SaveUserRequest request) {
         if (getUserByEmail(request.email) != null) {
             return false;
@@ -37,4 +49,11 @@ public class UserService {
         return true;
     }
 
+    public Long getUserIdFromEmail(@Nonnull final String email) {
+        final User user = getUserByEmail(email);
+        if(user == null) {
+            return null;
+        }
+        return user.id;
+    }
 }
