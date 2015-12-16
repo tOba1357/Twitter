@@ -1,5 +1,7 @@
 package models.requset;
 
+import models.form.SignupForm;
+
 import javax.annotation.Nonnull;
 
 /**
@@ -18,5 +20,13 @@ public class SaveUserRequest {
         this.email = email;
         this.password = password;
         this.userName = userName;
+    }
+
+    public static SaveUserRequest getRequest(@Nonnull final SignupForm signupForm) {
+        return new SaveUserRequest(
+                signupForm.getEmail(),
+                signupForm.getPassword(),
+                signupForm.getUserName()
+        );
     }
 }

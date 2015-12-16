@@ -4,10 +4,12 @@
 
 # Home page
 GET         /                     controllers.Application.index()
+GET         /signup               controllers.Application.renderSignupForm()
 
 #API
 GET         /api/v1/tweet         controllers.APIController.getTweetList()
 POST        /api/v1/tweet         controllers.APIController.tweet()
+POST        /api/v1/singup        controllers.APIController.singup()
 
 #Test
 GET         /test/make_data       controllers.TestDataController.makeUser()
