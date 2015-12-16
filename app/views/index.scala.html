@@ -1,6 +1,6 @@
-@()
+@(isLogin: Boolean)
 
-@main("Twitter", scripts) {
+@main("Twitter", scripts, isLogin) {
     <div id="content" getUrl="@routes.APIController.getTweetList()"
                       postUrl="@routes.APIController.tweet()"></div>
 }

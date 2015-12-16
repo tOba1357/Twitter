@@ -1,4 +1,4 @@
-@(title: String, script: Html = Html(""))(content: Html)
+@(title: String, script: Html = Html(""), isLogin: Boolean = false)(content: Html)
 
 <!DOCTYPE html>
 
@@ -20,7 +20,12 @@
                 </div>
                 <div class="collapse navbar-collapse" id="navbarEexample7">
                     <p class="navbar-text navbar-right">
-                        <a href="@routes.Application.renderSignupForm()" class="btn btn-primary">新規登録</a>
+                        @if(isLogin) {
+                            <a href="@routes.Application.logout()" class="btn btn-primary btn-sm">ログアウト</a>
+                        } else {
+                            <a href="@routes.Application.renderSignupForm()" class="btn btn-primary btn-sm">新規登録</a>
+                            <a href="@routes.Application.renderSigninForm()" class="btn btn-success btn-sm">ログイン</a>
+                        }
                     </p>
                 </div>
             </div>
