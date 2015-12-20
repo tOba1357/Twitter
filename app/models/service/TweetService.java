@@ -36,20 +36,4 @@ public class TweetService {
         return true;
     }
 
-    @Nullable
-    public List<TweetView> getAllTweets(@Nonnull final Long userId) {
-        final User user = USER_SERVICE.getUserById(userId);
-        if(user == null) {
-            return  Collections.emptyList();
-        }
-        final List<TweetView> tweetViewList = user.tweetList.stream()
-                .map(tweet -> new TweetView(
-                        user.userName,
-                        tweet.content,
-                        tweet.createDate
-                ))
-                .collect(Collectors.toList());
-
-        return tweetViewList;
-    }
 }
