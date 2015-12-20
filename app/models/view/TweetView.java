@@ -1,5 +1,7 @@
 package models.view;
 
+import models.entity.Tweet;
+
 import javax.annotation.Nonnull;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -24,5 +26,13 @@ public class TweetView {
         this.author = author;
         this.content = content;
         this.createDate = dateFormat.format(createDate);
+    }
+
+    public static TweetView create(@Nonnull final Tweet tweet) {
+        return new TweetView(
+                tweet.author.userName,
+                tweet.content,
+                tweet.createDate
+        );
     }
 }

@@ -1,16 +1,24 @@
 package controllers;
 
 import play.mvc.Result;
+import play.mvc.Security;
 import views.html.index;
 import views.html.signin;
 import views.html.signup;
+import views.html.top;
 
 public class Application extends BaseController {
 
+    @Security.Authenticated(Secured.class)
     public Result index() {
         return ok(index.render(isLogin()));
     }
 
+    public Result top() {
+        return ok(top.render());
+    }
+
+    @Security.Authenticated(Secured.class)
     public Result logout() {
         response().discardCookie("user");
         return redirect(controllers.routes.Application.index());

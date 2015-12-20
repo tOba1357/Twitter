@@ -27,7 +27,6 @@ public class Tweet extends Model{
     @ManyToOne
     public User author;
 
-
     @CreatedTimestamp
     public Timestamp createDate;
 

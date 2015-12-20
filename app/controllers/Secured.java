@@ -22,6 +22,6 @@ public class Secured extends Security.Authenticator {
 
     @Override
     public Result onUnauthorized(final Http.Context context) {
-        return redirect(controllers.routes.Application.renderSigninForm());
+        return redirect(controllers.routes.Application.top());
     }
 }

@@ -17,7 +17,10 @@ var TweetNode = React.createClass({
 var TweetList = React.createClass({
     getInitialState: function () {
         return {
-            tweets: []
+            tweets: [],
+            update: false,
+            loadedTweetFirstIndex: null,
+            loadedTweetLastIndex: null
         };
     },
     componentDidMount: function () {
@@ -26,12 +29,25 @@ var TweetList = React.createClass({
     },
     loadTweets: function() {
         self = this;
+        var parametars = "size=10";
+        if(self.state.loadedTweetLastIndex != null) {
+            parametars += "&from=" + this.state.loadedTweetLastIndex;
+        }
         $.ajax({
             type: "GET",
             url: self.props.getUrl,
+            data: parametars,
             dataType: "json",
             success: function (result) {
-                self.setState({tweets: result});
+                var tweets = [];
+                Array.prototype.push.apply(tweets, result["tweetViewList"]);
+                Array.prototype.push.apply(tweets, self.state.tweets);
+                self.setState({
+                    tweets: tweets,
+                    loadedTweetFirstIndex: Math.min(result["firstIndex"], self.state.loadedTweetLastIndex),
+                    loadedTweetLastIndex: Math.max(result["lastIndex"], self.state.loadedTweetLastIndex),
+                    update: true
+                });
             },
             error: function (xhr, status, err) {
                 console.error(xhr);
@@ -49,6 +65,7 @@ var TweetList = React.createClass({
         return (
             <div className="tweetList">
                 {tweetNodes}
+
             </div>
         );
     }

@@ -4,6 +4,7 @@
 
 # Home page
 GET         /                      controllers.Application.index()
+GET         /top                   controllers.Application.top()
 GET         /signup                controllers.Application.renderSignupForm()
 GET         /signin                controllers.Application.renderSigninForm()
 GET         /logout                controllers.Application.logout()
