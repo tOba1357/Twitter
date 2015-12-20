@@ -1,0 +1,9 @@
+@()
+
+@main("Twitter", scripts) {
+    <div id="content" getUrl="@routes.APIController.getUserList()"></div>
+}
+
+@scripts = {
+    <script src="@routes.Assets.versioned("javascripts/userlist.js")"></script>
+}

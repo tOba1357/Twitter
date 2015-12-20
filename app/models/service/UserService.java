@@ -7,6 +7,7 @@ import models.entity.User;
 import models.requset.SaveUserRequest;
 import models.view.TweetListView;
 import models.view.TweetView;
+import models.view.UserListView;
 import org.mindrot.jbcrypt.BCrypt;
 
 import javax.annotation.Nonnull;
@@ -100,6 +101,15 @@ public class UserService {
         return Tweet.find.fetch("author").where()
                 .eq("author.id", userId)
                 .findRowCount();
+    }
+
+    public UserListView getAllUser() {
+        final List<User> userList = User.find.all();
+        return UserListView.create(
+                userList,
+                0,
+                userList.size() - 1
+        );
     }
 }
 

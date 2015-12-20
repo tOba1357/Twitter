@@ -1,5 +1,6 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import models.form.GetTweetsForm;
 import models.form.SigninForm;
 import models.form.SignupForm;
@@ -8,6 +9,7 @@ import models.requset.SaveTweetRequest;
 import models.requset.SaveUserRequest;
 import models.view.TweetListView;
 import models.view.TweetView;
+import models.view.UserListView;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.libs.Json;
@@ -95,5 +97,11 @@ public class APIController extends BaseController {
         response().setCookie("user", uuid);
 
         return ok(Json.toJson("ok"));
+    }
+
+    public Result getUserList() {
+        final UserListView view = userService.getAllUser();
+        JsonNode json = Json.toJson(view);
+        return ok(Json.toJson(userService.getAllUser()));
     }
 }

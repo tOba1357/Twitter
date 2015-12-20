@@ -8,12 +8,14 @@ GET         /top                   controllers.Application.top()
 GET         /signup                controllers.Application.renderSignupForm()
 GET         /signin                controllers.Application.renderSigninForm()
 GET         /logout                controllers.Application.logout()
+GET         /userlist              controllers.Application.renderUserList()
 
 #API
 GET         /api/v1/tweet          controllers.APIController.getTweetList()
 POST        /api/v1/tweet          controllers.APIController.tweet()
 POST        /api/v1/singup         controllers.APIController.singup()
 POST        /api/v1/signin         controllers.APIController.signin()
+GET         /api/v1/users          controllers.APIController.getUserList()
 
 #Test
 GET         /test/make_data        controllers.TestDataController.makeUser()
