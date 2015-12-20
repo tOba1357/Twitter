@@ -18,6 +18,7 @@ POST        /api/v1/signin               controllers.APIController.signin()
 GET         /api/v1/users                controllers.APIController.getUserList()
 POST        /api/v1/follow               controllers.APIController.follow()
 POST        /api/v1/relase_follow        controllers.APIController.releaseFollow()
+POST        /api/v1/retweet              controllers.APIController.retweet()
 
 #Test
 GET         /test/make_data              controllers.TestDataController.makeUser()

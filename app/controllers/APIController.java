@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import models.form.FollowForm;
 import models.form.GetTweetsForm;
 import models.form.ReleaseFollowForm;
+import models.form.RetweetForm;
 import models.form.SigninForm;
 import models.form.SignupForm;
 import models.form.TweetForm;
@@ -136,6 +137,19 @@ public class APIController extends BaseController {
                 getUserId(),
                 releaseFollowForm.getId()
         );
+        return ok(Json.toJson("ok"));
+    }
+
+    @Security.Authenticated(Secured.class)
+    public Result retweet() {
+        final Form<RetweetForm> form = Form.form(RetweetForm.class)
+                .bindFromRequest();
+        if(form.hasErrors()) {
+            return badRequest(form.errorsAsJson());
+        }
+
+        final RetweetForm retweetForm = form.get();
+        userService.retweet(getUserId(), retweetForm.getTweetId());
         return ok(Json.toJson("ok"));
     }
 

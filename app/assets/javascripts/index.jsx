@@ -1,12 +1,38 @@
 var TweetNode = React.createClass({
+    retweet:function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: this.props.retweetUrl,
+            data: "tweetId=" + this.props.tweet["id"],
+            dataType: "json",
+            success: function (result) {
+            },
+            error: function (xhr, status, err) {
+                console.error(xhr);
+            }
+        });
+    },
+    getRetweetButton: function() {
+        if(this.props.tweet["doRetweet"]) {
+            return (
+                <div className="retweet" onClick={this.retweet}>リツイート</div>
+            );
+        } else {
+            return (<div></div>);
+        }
+    },
     render: function () {
         return (
             <div className="tweet">
                 <dl>
-                    <dt>{this.props.author}</dt>
+                    <dt>{this.props.tweet["author"]}</dt>
                     <dd>
-                        {this.props.children}
-                        <p className="text-right">{this.props.date}</p>
+                        {this.props.tweet["content"]}
+                        <div>
+                        {this.getRetweetButton()}
+                        <div className="tweet-date">{this.props.tweet["createDate"]}</div>
+                        </div>
                     </dd>
                 </dl>
             </div>
@@ -39,6 +65,7 @@ var TweetList = React.createClass({
             data: parametars,
             dataType: "json",
             success: function (result) {
+                console.log(result);
                 self.setState({
                     tweets: result["tweetViewList"],
                     loadedTweetFirstIndex: Math.min(result["firstIndex"], self.state.loadedTweetLastIndex),
@@ -52,11 +79,10 @@ var TweetList = React.createClass({
         });
     },
     render: function () {
+        self = this;
         var tweetNodes = this.state.tweets.map(function (tweet, key) {
             return (
-                <TweetNode author={tweet.author} date={tweet.createDate} key={key}>
-                    {tweet.content}
-                </TweetNode>
+                <TweetNode tweet={tweet} key={key} retweetUrl={self.props.retweetUrl} />
             );
         });
         return (
@@ -105,7 +131,7 @@ var TweetBox = React.createClass({
                 <div className="col-sm-4">
                     <h1>Twitter</h1>
                     <TweetForm postUrl={this.props.postUrl}/>
-                    <TweetList getUrl={this.props.getUrl}/>
+                    <TweetList getUrl={this.props.getUrl} retweetUrl={this.props.retweetUrl}/>
                 </div>
                 <div className="col-sm-4"></div>
             </div>
@@ -116,9 +142,11 @@ var TweetBox = React.createClass({
 var indexContainer = document.getElementById("content");
 var getUrl = indexContainer.getAttribute("getUrl");
 var postUrl = indexContainer.getAttribute("postUrl");
+var retweetUrl = indexContainer.getAttribute("retweetUrl");
 
 ReactDOM.render(
     <TweetBox getUrl={getUrl}
-              postUrl={postUrl} />,
+              postUrl={postUrl}
+              retweetUrl={retweetUrl}/>,
     document.getElementById('content')
 );

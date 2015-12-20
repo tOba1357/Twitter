@@ -36,4 +36,7 @@ public class TweetService {
         return true;
     }
 
+    public boolean registered(@Nonnull final Long id) {
+        return Tweet.find.byId(id) != null;
+    }
 }
