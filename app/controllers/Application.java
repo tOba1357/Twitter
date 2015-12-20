@@ -6,6 +6,7 @@ import views.html.index;
 import views.html.signin;
 import views.html.signup;
 import views.html.top;
+import views.html.userList;
 
 public class Application extends BaseController {
 
@@ -36,5 +37,9 @@ public class Application extends BaseController {
             return redirect(controllers.routes.Application.index());
         }
         return ok(signin.render());
+    }
+
+    public Result renderUserList() {
+        return ok(userList.render());
     }
 }
