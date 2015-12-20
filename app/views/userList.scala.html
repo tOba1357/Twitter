@@ -1,7 +1,9 @@
-@()
+@(isLogin: Boolean)
 
-@main("Twitter", scripts) {
-    <div id="content" getUrl="@routes.APIController.getUserList()"></div>
+@main("Twitter", scripts, isLogin) {
+    <div id="content" getUrl="@routes.APIController.getUserList()"
+                      followUrl="@routes.APIController.follow()"
+                      releaseFollowerUrl="@routes.APIController.releaseFollow()"></div>
 }
 
 @scripts = {

@@ -4,7 +4,23 @@ package models.form;
  * @author Tatsuya Oba
  */
 public class GetTweetsForm {
-    public Integer from;
+    protected Integer from;
 
-    public Integer size;
+    protected Integer size;
+
+    public Integer getFrom() {
+        return from;
+    }
+
+    public Integer getSize() {
+        return size;
+    }
+
+    public void setFrom(final Integer from) {
+        this.from = from;
+    }
+
+    public void setSize(final Integer size) {
+        this.size = size;
+    }
 }
