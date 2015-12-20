@@ -38,9 +38,11 @@ public class User extends Model {
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     public List<Tweet> tweetList;
 
-    @ManyToMany(mappedBy = "viewUserList")
-    @JoinColumn(name = "id")
-    public List<Tweet> timeLien;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    public List<TimeLineTweet> timeLien;
+
+    @OneToMany(mappedBy = "retweetUser", cascade = CascadeType.ALL)
+    public List<TimeLineTweet> retweet;
 
     @ManyToMany
     @JoinColumn(name = "id")
@@ -60,6 +62,8 @@ public class User extends Model {
 
     public User() {
         this.tweetList = new ArrayList<>();
+        this.timeLien = new ArrayList<>();
+        this.retweet = new ArrayList<>();
         this.followList = new ArrayList<>();
         this.followerList = new ArrayList<>();
     }

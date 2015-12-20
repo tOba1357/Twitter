@@ -10,3 +10,11 @@
 .signup-form {
     margin-top: 25px;
 }
+
+.tweet-date {
+    float: right;
+}
+
+.retweet {
+    float: left;
+}
