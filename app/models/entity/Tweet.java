@@ -7,9 +7,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,8 +29,16 @@ public class Tweet extends Model{
     @ManyToOne
     public User author;
 
+    @ManyToMany
+    @JoinColumn(name = "id")
+    public List<User> viewUserList;
+
     @CreatedTimestamp
     public Timestamp createDate;
 
     public static final Finder<Long, Tweet> find = new Finder<>(Tweet.class);
+
+    public Tweet() {
+        this.viewUserList = new ArrayList<>();
+    }
 }

@@ -39,11 +39,8 @@ var TweetList = React.createClass({
             data: parametars,
             dataType: "json",
             success: function (result) {
-                var tweets = [];
-                Array.prototype.push.apply(tweets, result["tweetViewList"]);
-                Array.prototype.push.apply(tweets, self.state.tweets);
                 self.setState({
-                    tweets: tweets,
+                    tweets: result["tweetViewList"],
                     loadedTweetFirstIndex: Math.min(result["firstIndex"], self.state.loadedTweetLastIndex),
                     loadedTweetLastIndex: Math.max(result["lastIndex"], self.state.loadedTweetLastIndex),
                     update: true

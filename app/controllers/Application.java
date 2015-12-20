@@ -39,7 +39,8 @@ public class Application extends BaseController {
         return ok(signin.render());
     }
 
+    @Security.Authenticated(Secured.class)
     public Result renderUserList() {
-        return ok(userList.render());
+        return ok(userList.render(isLogin()));
     }
 }

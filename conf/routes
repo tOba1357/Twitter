@@ -3,23 +3,25 @@
 # ~~~~
 
 # Home page
-GET         /                      controllers.Application.index()
-GET         /top                   controllers.Application.top()
-GET         /signup                controllers.Application.renderSignupForm()
-GET         /signin                controllers.Application.renderSigninForm()
-GET         /logout                controllers.Application.logout()
-GET         /userlist              controllers.Application.renderUserList()
+GET         /                            controllers.Application.index()
+GET         /top                         controllers.Application.top()
+GET         /signup                      controllers.Application.renderSignupForm()
+GET         /signin                      controllers.Application.renderSigninForm()
+GET         /logout                      controllers.Application.logout()
+GET         /userlist                    controllers.Application.renderUserList()
 
 #API
-GET         /api/v1/tweet          controllers.APIController.getTweetList()
-POST        /api/v1/tweet          controllers.APIController.tweet()
-POST        /api/v1/singup         controllers.APIController.singup()
-POST        /api/v1/signin         controllers.APIController.signin()
-GET         /api/v1/users          controllers.APIController.getUserList()
+GET         /api/v1/tweet                controllers.APIController.getTweetList()
+POST        /api/v1/tweet                controllers.APIController.tweet()
+POST        /api/v1/singup               controllers.APIController.singup()
+POST        /api/v1/signin               controllers.APIController.signin()
+GET         /api/v1/users                controllers.APIController.getUserList()
+POST        /api/v1/follow               controllers.APIController.follow()
+POST        /api/v1/relase_follow        controllers.APIController.releaseFollow()
 
 #Test
-GET         /test/make_data        controllers.TestDataController.makeUser()
+GET         /test/make_data              controllers.TestDataController.makeUser()
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file          controllers.Assets.versioned(path="/public", file: Asset)
-GET         /webjars/*file         controllers.WebJarAssets.at(file)
+GET         /assets/*file                controllers.Assets.versioned(path="/public", file: Asset)
+GET         /webjars/*file               controllers.WebJarAssets.at(file)

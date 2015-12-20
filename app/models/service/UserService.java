@@ -4,10 +4,12 @@ import com.avaje.ebean.Ebean;
 import com.avaje.ebean.EbeanServer;
 import models.entity.Tweet;
 import models.entity.User;
+import models.requset.SaveTweetRequest;
 import models.requset.SaveUserRequest;
 import models.view.TweetListView;
 import models.view.TweetView;
 import models.view.UserListView;
+import models.view.UserView;
 import org.mindrot.jbcrypt.BCrypt;
 
 import javax.annotation.Nonnull;
@@ -34,6 +36,10 @@ public class UserService {
 
     public Boolean registered(@Nonnull final String email) {
         return getUserByEmail(email) != null;
+    }
+
+    public Boolean registered(@Nonnull final Long id) {
+        return getUserById(id) != null;
     }
 
     public Boolean authenticate(
@@ -65,14 +71,29 @@ public class UserService {
         return user.id;
     }
 
+    public TweetListView getAllTimeLines(@Nonnull final Long userId) {
+        final List<Tweet> tweetList = Tweet.find.fetch("viewUserList").where()
+                .eq("viewUserList.id", userId)
+                .orderBy().desc("createDate")
+                .setFirstRow(0)
+                .setMaxRows(100)
+                .findList();
+
+        return TweetListView.create(
+                tweetList,
+                0,
+                tweetList.size()
+        );
+    }
+
     public TweetListView getTimeLines(
             @Nonnull final Long userId,
             @Nonnull final Integer from,
             @Nonnull final Integer size
     ) {
-        final List<Tweet> tweetList = Tweet.find.fetch("author").where()
-                .eq("author.id", userId)
-                .orderBy("id")
+        final List<Tweet> tweetList = Tweet.find.fetch("viewUserList").where()
+                .eq("viewUserList.id", userId)
+                .orderBy().desc("createDate")
                 .setFirstRow(from)
                 .setMaxRows(size)
                 .findList();
@@ -98,18 +119,73 @@ public class UserService {
     }
 
     public Integer getTweetsSize(@Nonnull final Long userId){
-        return Tweet.find.fetch("author").where()
-                .eq("author.id", userId)
+        return Tweet.find.fetch("viewUserList").where()
+                .eq("viewUserList.id", userId)
                 .findRowCount();
     }
 
-    public UserListView getAllUser() {
-        final List<User> userList = User.find.all();
-        return UserListView.create(
-                userList,
+    public UserListView getAllUserWithoutLoginUser(@Nonnull final Long userId) {
+        final User loginUser = getUserById(userId);
+        final List<UserView> userViewList = User.find.all().stream()
+                .filter(user -> !user.id.equals(userId))
+                .map(user -> new UserView(
+                        user.id,
+                        user.email,
+                        user.userName,
+                        loginUser.followList.contains(user)
+                )).collect(Collectors.toList());
+
+        return new UserListView(
+                userViewList,
                 0,
-                userList.size() - 1
+                userViewList.size() - 1
         );
+    }
+
+    public boolean follow(
+            @Nonnull final Long followUserId,
+            @Nonnull final Long followerUserId
+    ) {
+        final User followUser = getUserById(followUserId);
+        final User followerUser = getUserById(followerUserId);
+        if(followUser == null || followerUser == null) {
+            return false;
+        }
+        followUser.followList.add(followerUser);
+        SERVER.update(followUser);
+
+        return true;
+    }
+
+    public boolean releaseFollow(
+            @Nonnull final Long followUserId,
+            @Nonnull final Long followerUserId
+    ) {
+        final User followUser = getUserById(followUserId);
+        final User followerUser = getUserById(followerUserId);
+        if(followUser == null || followerUser == null) {
+            return false;
+        }
+        followUser.followList.remove(followerUser);
+        SERVER.update(followUser);
+
+        return true;
+    }
+
+    public boolean saveTweet(@Nonnull final SaveTweetRequest request) {
+        final User user = getUserById(request.userId);
+        if(user == null) {
+            return false;
+        }
+        
+        final Tweet tweet = new Tweet();
+        tweet.author = user;
+        tweet.content = request.content;
+        tweet.viewUserList.add(user);
+        tweet.viewUserList.addAll(user.followerList);
+        SERVER.save(tweet);
+
+        return true;
     }
 }
 
